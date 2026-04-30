@@ -12,6 +12,6 @@
         </ul>
     </div>
 @empty
-    <p>You have no teams yet my nigga</p>
+    <p>You have no teams yet!</p>
 @endforelse
 
