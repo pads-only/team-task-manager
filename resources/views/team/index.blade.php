@@ -1,4 +1,4 @@
-<h1>Index my nigga</h1>
+<h1>Teams</h1>
 
 @forelse ($teams as $team)
     <div>
