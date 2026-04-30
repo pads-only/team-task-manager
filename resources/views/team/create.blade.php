@@ -1,4 +1,4 @@
-<h1>Create team nigga</h1>
+<h1>Create team</h1>
 <form action="{{ route('team.store') }}" method="post">
     @csrf
     <div>
