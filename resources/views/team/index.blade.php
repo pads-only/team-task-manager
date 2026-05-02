@@ -1,5 +1,4 @@
 <x-app-layout>
-
     <h1>Teams</h1>
     <a href="{{ route('team.create') }}">Create team</a>
     @forelse ($teams as $team)
