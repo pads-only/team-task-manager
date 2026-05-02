@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Team;
+use App\Services\CreateTeam;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,8 +14,6 @@ use Illuminate\Support\Str;
 
 class TeamController extends Controller
 {
-    // protected int $user = Auth::id();
-
     public function index(): View
     {
         $user = Auth::user();
@@ -32,28 +31,17 @@ class TeamController extends Controller
     public function show(Team $team): View
     {
         $memberCount = $team->users()->count();
+
         return view('team.show', ['team' => $team, 'memberCount' => $memberCount]);
     }
 
     public function store(Request $request): RedirectResponse
     {
-
         $data = $request->validate([
             'name' => 'required|string|min:3'
         ]);
 
-        $slug = Str::slug($data['name'], '-') . '-' . Str::random(32);
-
-        $team = Team::create([
-            'name' => $data['name'],
-            'owner_id' => Auth::id(),
-            'slug' => $slug
-        ]);
-
-        $team->users()->attach(Auth::id(), [
-            'role' => 'owner'
-        ]);
-
+        app(CreateTeam::class)->handle($data['name']);
 
         return redirect()->route('team.index');
     }

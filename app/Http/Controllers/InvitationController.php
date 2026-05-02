@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
+
 class InvitationController extends Controller
 {
     public function index(): View
@@ -42,7 +43,6 @@ class InvitationController extends Controller
 
     public function store(StoreInvitationRequest $request, Team $team)
     {
-
         app(InviteUserToTeam::class)->handle($team, $request->validated('email'));
 
         return redirect()->route('team.index');
