@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('token')->unique();
             $table->timestamp('expires_at')->nullable();
             $table->timestamps();
+
+            $table->unique(['email', 'team_id']);
         });
     }
 

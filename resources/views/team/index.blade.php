@@ -1,17 +1,15 @@
-<h1>Teams</h1>
-
-@forelse ($teams as $team)
-    <div>
-        <h2>{{$team->name}}</h2>
-        <small>owner: {{$team->owner->name}}</small>
-        <ul>
-            <h3>Members: </h3>
-            @foreach ($team->users as $member)
-            <li>{{$member->name}} : {{$member->pivot->role}}</li>
-            @endforeach
-        </ul>
-    </div>
-@empty
+<x-app-layout>
+    <h1>Teams</h1>
+    <a href="{{ route('team.create') }}">Create team</a>
+    @forelse ($teams as $team)
+    <x-card class="my-2">
+        <a href="{{ route('team.show', $team->slug) }}">
+            <h2>{{$team->name}}</h2>
+            <small>owner: {{$team->owner->name}}</small>
+        </a>
+    </x-card>
+    @empty
     <p>You have no teams yet!</p>
-@endforelse
+    @endforelse
+</x-app-layout>
 

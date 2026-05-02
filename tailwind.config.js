@@ -1,5 +1,6 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
+const colors = require('tailwindcss/colors');
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -13,6 +14,44 @@ export default {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+            },
+            colors: {
+                'primary': colors.orange[500],
+                'secondary': colors.gray[900],
+                'background': colors.gray[100],
+                'text': colors.gray[700],
+                'border': colors.gray[300]
+            },
+
+            borderRadius: {
+                md: '8px',
+                lg: '12px',
+            },
+
+            fontFamily: {
+                sans: [
+                    'Inter',
+                    'system-ui',
+                    'Helvetica Neue',
+                    'Arial',
+                    'sans-serif'
+                ],
+                mono: [
+                    'JetBrains Mono',
+                    'monospace'
+                ],
+            },
+
+            maxWidth: {
+                'content': '1200px',
+            },
+
+            spacing: {
+                'section': '80px',
+            },
+
+            letterSpacing: {
+                tighter: '-0.02em',
             },
         },
     },

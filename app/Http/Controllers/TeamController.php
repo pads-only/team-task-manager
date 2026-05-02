@@ -6,7 +6,10 @@ use App\Models\Team;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
+use Illuminate\Support\Str;
+
 
 class TeamController extends Controller
 {
@@ -16,7 +19,6 @@ class TeamController extends Controller
     {
         $user = Auth::user();
 
-        // $teams = Team::with(['users', 'owner'])->latest()->paginate();
         $teams = $user->teams()->with(['owner', 'users'])->get();
 
         return view('team.index', compact('teams'));
@@ -27,16 +29,25 @@ class TeamController extends Controller
         return view('team.create');
     }
 
+    public function show(Team $team): View
+    {
+        $memberCount = $team->users()->count();
+        return view('team.show', ['team' => $team, 'memberCount' => $memberCount]);
+    }
+
     public function store(Request $request): RedirectResponse
     {
 
-        $validateAttribute = $request->validate([
+        $data = $request->validate([
             'name' => 'required|string|min:3'
         ]);
 
+        $slug = Str::slug($data['name'], '-') . '-' . Str::random(32);
+
         $team = Team::create([
-            'name' => $validateAttribute['name'],
-            'owner_id' => Auth::id()
+            'name' => $data['name'],
+            'owner_id' => Auth::id(),
+            'slug' => $slug
         ]);
 
         $team->users()->attach(Auth::id(), [
