@@ -1,15 +1,4 @@
 <x-app-layout>
-    {{-- <x-card>
-        <h1>{{$team->name}}</h1>
-        <h4>Members</h4>
-        <ul>           
-            @foreach ($team->users as $member)
-            <li>{{$member->name}} : ({{$member->pivot->role}})</li>
-            @endforeach
-        </ul>
-    </x-card>
-    <a href="{{ route('invitation.create', $team->slug)}}">Add member</a> --}}
-    {{-- <div class="min-h-screen bg-background p-6"> --}}
     <div class="max-w-5xl mx-auto rounded-xl border border-border bg-white shadow-sm">
 
         <!-- Tabs -->

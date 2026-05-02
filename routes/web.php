@@ -4,6 +4,8 @@ use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TeamController;
 use App\Models\Invitation;
+use App\Models\Project;
+use App\Models\Task;
 use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +16,16 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $user = Auth::user();
+    $teams = $user->teams()->with(['owner', 'users'])->get();
+
+    $projects = $user->projects()->with('owner', 'team', 'task')->get();
+
+    $tasks = $user->tasks()->with(['project', 'creator', 'users'])->get();
+
+    $invitations = Invitation::with('team')->where('email', $user->email)->get();
+
+    return view('dashboard', ['teams' => $teams, 'projects' => $projects, 'tasks' => $tasks, 'invitations' => $invitations]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -35,8 +46,6 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/team/{team:slug}/invitation', [InvitationController::class, 'store'])->name('invitation.store');
     Route::get('/invite', [InvitationController::class, 'index'])->name('invitaion.index');
-
-    // Route::get('/team', [InvitationController::class, 'index'])->name('invitaion.index');
 
     Route::get('/invite/{invitation:token}', [InvitationController::class, 'show'])->name('invitation.show');
 
