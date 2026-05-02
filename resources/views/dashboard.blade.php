@@ -1,6 +1,6 @@
 <x-app-layout>
 
-    <h1>hello nigga</h1>
+    <h1>hello {{Auth::user()->name}}</h1>
     
     <a href="{{ route('team.create') }}">Create team</a>
     <br>
